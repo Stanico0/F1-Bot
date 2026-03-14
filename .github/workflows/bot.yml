@@ -19,10 +19,13 @@ jobs:
           path: seen_videos.json
           key: seen-videos
 
-      - name: 🏎️ Lancer le bot
+ - name: 🏎️ Tester le webhook
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        run: python bot.py
+        run: |
+          curl -v -X POST "$DISCORD_WEBHOOK" \
+          -H "Content-Type: application/json" \
+          -d '{"content": "test"}'
 
       - name: 💾 Sauvegarder les vidéos vues
         uses: actions/cache@v4
