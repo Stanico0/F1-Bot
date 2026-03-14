@@ -22,7 +22,8 @@ jobs:
 
       - name: Sauvegarder les videos vues
         run: |
-          git config user.name "F1 Bot"
-          git config user.email "bot@f1.com"
+          git config user.name 'F1 Bot'
+          git config user.email 'bot@f1.com'
           git add seen_videos.json
-          git diff --cached --quiet || git commit -m "Update seen
+          git diff --cached --quiet || git commit -m 'Update seen videos'
+          git push
