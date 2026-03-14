@@ -8,6 +8,8 @@ on:
 jobs:
   run-bot:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout
@@ -26,4 +28,4 @@ jobs:
           git config user.email 'bot@f1.com'
           git add seen_videos.json
           git diff --cached --quiet || git commit -m 'Update seen videos'
-          git push
+          git push origin main
