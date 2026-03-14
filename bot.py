@@ -3,11 +3,8 @@ import json
 import urllib.request
 import xml.etree.ElementTree as ET
 
-# ─── Config ───────────────────────────────────────────────────────────────────
-DISCORD_WEBHOOK = os.environ["DISCORD_WEBHOOK"]
+DISCORD_WEBHOOK = os.environ.get("DISCORD_WEBHOOK", "")
 SEEN_FILE       = "seen_videos.json"
-
-# Flux RSS public de la chaîne officielle F1 (aucune clé API requise !)
 RSS_URL = "https://www.youtube.com/feeds/videos.xml?channel_id=UCB_qr75-ydFVKSF9Dmo6izg"
 
 HIGHLIGHT_KEYWORDS = [
@@ -22,7 +19,6 @@ NS = {
     "yt":    "http://www.youtube.com/xml/schemas/2015",
 }
 
-# ─── Helpers ──────────────────────────────────────────────────────────────────
 def load_seen() -> set:
     if os.path.exists(SEEN_FILE):
         with open(SEEN_FILE) as f:
@@ -43,6 +39,9 @@ def fetch_rss() -> list:
     return root.findall("atom:entry", NS)
 
 def post_to_discord(video_id: str, title: str, thumbnail: str):
+    # Debug : affiche les premiers caractères du webhook
+    print(f"🔗 Webhook (début) : {DISCORD_WEBHOOK[:40]}...")
+
     yt_url  = f"https://www.youtube.com/watch?v={video_id}"
     payload = json.dumps({
         "content": "🚨 **Nouveau highlight F1 disponible !**",
@@ -64,8 +63,8 @@ def post_to_discord(video_id: str, title: str, thumbnail: str):
     with urllib.request.urlopen(req) as resp:
         print(f"✅ Posté ({resp.status}) : {title}")
 
-# ─── Main ─────────────────────────────────────────────────────────────────────
 def main():
+    print(f"🔍 Webhook défini : {'OUI' if DISCORD_WEBHOOK else 'NON - SECRET MANQUANT!'}")
     seen    = load_seen()
     entries = fetch_rss()
 
