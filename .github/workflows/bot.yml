@@ -13,12 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Restaurer les videos
-        uses: actions/cache@v4
-        with:
-          path: seen_videos.json
-          key: seen-videos
-
       - name: Lancer le bot
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
@@ -26,8 +20,9 @@ jobs:
           pip install requests -q
           python bot.py
 
-      - name: Sauvegarder les videos
-        uses: actions/cache@v4
-        with:
-          path: seen_videos.json
-          key: seen-videos
+      - name: Sauvegarder les videos vues
+        run: |
+          git config user.name "F1 Bot"
+          git config user.email "bot@f1.com"
+          git add seen_videos.json
+          git diff --cached --quiet || git commit -m "Update seen
