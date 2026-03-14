@@ -39,19 +39,15 @@ def fetch_rss() -> list:
     return root.findall("atom:entry", NS)
     
 def post_to_discord(video_id: str, title: str, thumbnail: str):
-    yt_url  = f"https://www.youtube.com/watch?v={video_id}"
-    payload = json.dumps({
+    import requests
+    yt_url = f"https://www.youtube.com/watch?v={video_id}"
+    payload = {
         "content": f"**Nouveau highlight F1 !**\n{title}\n{yt_url}",
-    }).encode("utf-8")
-
-    req = urllib.request.Request(
-        DISCORD_WEBHOOK,
-        data=payload,
-        headers={"Content-Type": "application/json; charset=utf-8"},
-        method="POST"
-    )
-    with urllib.request.urlopen(req) as resp:
-        print(f"Poste ({resp.status}) : {title}")
+    }
+    resp = requests.post(DISCORD_WEBHOOK, json=payload)
+    print(f"Poste ({resp.status_code}) : {title}")
+    if resp.status_code not in (200, 204):
+        print(f"Erreur Discord : {resp.text}")
 
 def main():
     print(f"🔍 Webhook défini : {'OUI' if DISCORD_WEBHOOK else 'NON - SECRET MANQUANT!'}")
