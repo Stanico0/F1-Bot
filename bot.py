@@ -8,12 +8,10 @@ SEEN_FILE       = "seen_videos.json"
 RSS_URL = "https://www.youtube.com/feeds/videos.xml?channel_id=UCB_qr75-ydFVKSF9Dmo6izg"
 
 HIGHLIGHT_KEYWORDS = [
-    "race highlights",
-    "qualifying highlights", 
-    "sprint highlights",
-    "sprint race highlights",
+    "highlights", "highlight", "race highlights",
+    "qualifying highlights", "sprint highlights",
+    "extended highlights", "top moments", "race edit"
 ]
-
 NS = {
     "atom":  "http://www.w3.org/2005/Atom",
     "media": "http://search.yahoo.com/mrss/",
