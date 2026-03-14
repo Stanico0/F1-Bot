@@ -32,27 +32,14 @@ def fetch_rss() -> list:
     root = tree.getroot()
     return root.findall("atom:entry", NS)
 def post_to_discord(video_id: str, title: str, thumbnail: str):
-    # Debug : affiche les premiers caractères du webhook
-    print(f"🔗 Webhook (début) : {DISCORD_WEBHOOK[:40]}...")
-    yt_url  = f"https://www.youtube.com/watch?v={video_id}"
-    payload = json.dumps({
-        "content": "🚨 **Nouveau highlight F1 disponible !**",
-        "embeds": [{
-            "title": f"🏎️  {title}",
-            "url":   yt_url,
-            "color": 15158332,
-            "image": {"url": thumbnail},
-            "footer": {"text": "Formula 1 · YouTube"},
-        }]
-    }).encode()
-    req = urllib.request.Request(
-        DISCORD_WEBHOOK,
-        data=payload,
-        headers={"Content-Type": "application/json"},
-        method="POST"
-    )
-    with urllib.request.urlopen(req) as resp:
-        print(f"✅ Posté ({resp.status}) : {title}")
+    import requests
+    yt_url = f"https://www.youtube.com/watch?v={video_id}"
+    payload = {
+        "content": f"**Nouveau highlight F1 !**\n{title}\n{yt_url}",
+    }
+    resp = requests.post(DISCORD_WEBHOOK, json=payload)
+    print(f"Poste ({resp.status_code}) : {title}")
+
 def main():
     print(f"🔍 Webhook défini : {'OUI' if DISCORD_WEBHOOK else 'NON - SECRET MANQUANT!'}")
     seen    = load_seen()
