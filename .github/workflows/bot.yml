@@ -10,29 +10,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: 📂 Restaurer les vidéos déjà vues
+      - name: Restaurer les videos
         uses: actions/cache@v4
         with:
           path: seen_videos.json
           key: seen-videos
 
-      - name: 🏎️ Lancer le bot
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        run: python bot.py
-
-      - name: 💾 Sauvegarder les vidéos vues
-        uses: actions/cache@v4
-        with:
-          path: seen_videos.json
-          key: seen-videos
-
-- name: 🏎️ Lancer le bot
+      - name: Lancer le bot
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
           pip install requests -q
           python bot.py
+
+      - name: Sauvegarder les videos
+        uses: actions/cache@v4
+        with:
+          path: seen_videos.json
+          key: seen-videos
