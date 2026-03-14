@@ -29,3 +29,10 @@ jobs:
         with:
           path: seen_videos.json
           key: seen-videos
+
+- name: 🏎️ Lancer le bot
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          pip install requests -q
+          python bot.py
