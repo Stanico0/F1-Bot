@@ -13,22 +13,10 @@ jobs:
       - name: 📥 Checkout
         uses: actions/checkout@v4
 
-      - name: 📂 Restaurer les vidéos déjà vues
-        uses: actions/cache@v4
-        with:
-          path: seen_videos.json
-          key: seen-videos
-
- - name: 🏎️ Tester le webhook
+      - name: 🏎️ Tester le webhook
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
           curl -v -X POST "$DISCORD_WEBHOOK" \
           -H "Content-Type: application/json" \
-          -d '{"content": "test"}'
-
-      - name: 💾 Sauvegarder les vidéos vues
-        uses: actions/cache@v4
-        with:
-          path: seen_videos.json
-          key: seen-videos
+          -d '{"content": "test bot F1"}'
