@@ -33,7 +33,7 @@ def save_seen(seen: set):
         json.dump(list(seen), f)
 
 def is_highlight(title: str) -> bool:
-    return any(kw in title.lower() for kw in HIGHLIGHT_KEYWORDS)
+    return True
 
 def fetch_rss() -> list:
     with urllib.request.urlopen(RSS_URL) as resp:
